@@ -18,6 +18,7 @@ function divide(a,b){
 let firstNumber = '';
 let currentNumber = '';
 let operator = '';
+let answer='';
 let justCalculated = false;
 const cont = document.querySelector('#interface');
 
@@ -27,30 +28,34 @@ cont.addEventListener('click',(e) => {
     if (buttonType === 'equal') buttonDisplay = '';
     else buttonDisplay = e.target.textContent;
     switch(buttonType){
+        case ('clear'):
+            currentNumber = '';
+            updateDisplay(currentNumber)
+            break;
+        case('clear-all'):
+            currentNumber = '';
+            firstNumber = '';
+            currentNumber = '';
+            answer = '';
+            updateDisplay(currentNumber);
+            break;
         case ('number'):
-
             if(firstNumber === '' && buttonDisplay === '0') return;
             currentNumber += buttonDisplay;
             updateDisplay(currentNumber);
             break;
         case ('operation'):
         case ('equal'):
+            if (answer!=='') firstNumber = answer;
             if (operator !== '') {
                 calculate(firstNumber,currentNumber,operator);
             }
             else {saveNumber(currentNumber)};
             operator = buttonDisplay;
+            if (buttonType === 'equal') 
             break;
     }
 })
-
-function calculationCheck(){
-    if (justCalculated===true){
-        currentNumber = '';
-        firstNumber = '';
-        justCalculated = false;
-    }
-}
 
 function saveNumber(value){
     firstNumber = value;
@@ -63,7 +68,6 @@ function updateDisplay(activeNumber){
 }
 
 function calculate(firstNumber,secondNumber,operator){
-    let answer;
     switch (operator){
         case `+`:
             answer = add(firstNumber,secondNumber);
@@ -89,4 +93,3 @@ function calculate(firstNumber,secondNumber,operator){
     justCalculated = true;
     return answer;
 }
-
