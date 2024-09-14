@@ -16,7 +16,6 @@ function divide(a,b){
     return (a/b)
 }
 let firstNumber = '';
-let secondNumber = '';
 let currentNumber = '';
 let operator = '';
 let justCalculated = false;
@@ -24,30 +23,24 @@ const cont = document.querySelector('#interface');
 
 cont.addEventListener('click',(e) => {
     let buttonType = e.target.className;
-    let buttonDisplay = e.target.textContent;
+    let buttonDisplay;
+    if (buttonType === 'equal') buttonDisplay = '';
+    else buttonDisplay = e.target.textContent;
     switch(buttonType){
         case ('number'):
-            calculationCheck();
+
+            if(firstNumber === '' && buttonDisplay === '0') return;
             currentNumber += buttonDisplay;
             updateDisplay(currentNumber);
             break;
         case ('operation'):
+        case ('equal'):
+            if (operator !== '') {
+                calculate(firstNumber,currentNumber,operator);
+            }
+            else {saveNumber(currentNumber)};
             operator = buttonDisplay;
-            if (firstNumber !== ''){
-                saveNumber(calculate(firstNumber,currentNumber,operator));
-                justCalculated = true;
-            } else {
-                saveNumber(currentNumber); 
-            }
             break;
-        default:
-            if (operator !== ''){
-                saveNumber(calculate(firstNumber,currentNumber,operator));
-                justCalculated = true;
-            } else {
-                updateDisplay(currentNumber);
-                currentNumber = ''; 
-            }
     }
 })
 
@@ -92,6 +85,8 @@ function calculate(firstNumber,secondNumber,operator){
             console.log('failed operation');
     }
     updateDisplay(answer);
+    saveNumber(answer);
+    justCalculated = true;
     return answer;
 }
 
