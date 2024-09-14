@@ -13,20 +13,29 @@ function multiply(a,b){
 function divide(a,b){
     return (a/b)
 }
-let firstNumber = 0;
-let secondNumber = 0;
+let firstNumber = '';
+let secondNumber = '';
 let currentNumber = '';
 let operator;
 const cont = document.querySelector('#interface');
 
 cont.addEventListener('click',(e) => {
-    let buttonPressed = e.target;
-    switch(buttonPressed.className){
+    let buttonType = e.target.className;
+    let buttonDisplay = e.target.textContent;
+    switch(buttonType){
         case ('number'):
-            currentNumber += buttonPressed.textContent;
-            console.log(currentNumber)
+            currentNumber += buttonDisplay;
+            updateDisplay(currentNumber);
             break;
-
+        case ('operation'):
+            operator = buttonDisplay;
+            if (firstNumber !== ''){
+                calculate(firstNumber,currentNumber,operator);
+            } else {
+                firstNumber = currentNumber;
+                currentNumber = '';
+            }
+            break;
     }
 })
 
@@ -38,19 +47,20 @@ function updateDisplay(activeNumber){
 function calculate(firstNumber,secondNumber,operator){
     let answer;
     switch (operator){
-        case `add`:
+        case `+`:
             answer = add(firstNumber,secondNumber);
             break;
-        case 'subtract':
+        case '-':
             answer = subtract(firstNumber,secondNumber);
             break;
-        case `multiply`:
+        case `×`:
             answer = multiply(firstNumber,secondNumber);
             break;
-        case `divide`:
+        case `÷`:
             answer = divide(firstNumber,secondNumber);
             break;
     }
+    updateDisplay(answer);
     return answer;
 }
 
