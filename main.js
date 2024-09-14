@@ -13,10 +13,27 @@ function multiply(a,b){
 function divide(a,b){
     return (a/b)
 }
-
-let firstNumber;
-let secondNumber;
+let firstNumber = 0;
+let secondNumber = 0;
+let currentNumber = '';
 let operator;
+const cont = document.querySelector('#interface');
+
+cont.addEventListener('click',(e) => {
+    let buttonPressed = e.target;
+    switch(buttonPressed.className){
+        case ('number'):
+            currentNumber += buttonPressed.textContent;
+            console.log(currentNumber)
+            break;
+
+    }
+})
+
+function updateDisplay(activeNumber){
+    let display = document.querySelector('#screen');
+    display.textContent = activeNumber;
+}
 
 function calculate(firstNumber,secondNumber,operator){
     let answer;
@@ -36,3 +53,4 @@ function calculate(firstNumber,secondNumber,operator){
     }
     return answer;
 }
+
