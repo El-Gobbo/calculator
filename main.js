@@ -28,8 +28,6 @@ cont.addEventListener('click',(e) => {
     let buttonType = e.target.className;
     let buttonDisplay = e.target.textContent;
     switch(buttonType){
-        case ('clear'):
-        case('clear-all'):
         case ('number'):
             //To reset the numbers after a calculation
             if (answer !== '') answer = '';
@@ -44,45 +42,54 @@ cont.addEventListener('click',(e) => {
                 updateDisplay(currentNumber);
                 break;
         case ('operation'):
-
+            if (operator === ''){
+                operator = buttonDisplay;
+                firstNumber = (answer || currentNumber);
+                currentNumber = '0';
+            }
+            else {
+                firstNumber = calculate(firstNumber, currentNumber,operator);
+                operator = buttonDisplay;
+                currentNumber = '0';
+            }
+            decimalPressed = false;
+            break;
         case ('equal'):
+            if (operator === '' || firstNumber === '') return;
+            answer = calculate (firstNumber,currentNumber,operator);
+            operator = '';
+            currentNumber = '0';
+            decimalPressed = false;
             break;
     }
 })
-
-function saveNumber(value){
-    firstNumber = value;
-    currentNumber = '';
-}
 
 function updateDisplay(activeNumber){
     let display = document.querySelector('#screen');
     display.textContent = activeNumber;
 }
 
-function calculate(firstNumber,secondNumber,operator){
-    switch (operator){
+function calculate(a,b,opp){
+    switch (opp){
         case `+`:
-            answer = add(firstNumber,secondNumber);
+            answer = add(a,b);
             console.log('added')
             break;
         case '-':
-            answer = subtract(firstNumber,secondNumber);
+            answer = subtract(a,b);
             console.log('subtracted')
             break;
         case `×`:
-            answer = multiply(firstNumber,secondNumber);
+            answer = multiply(a,b);
             console.log('multiplied')
             break;
         case `÷`:
-            answer = divide(firstNumber,secondNumber);
+            answer = divide(a,b);
             console.log('divided')
             break;
         default:
             console.log('failed operation');
     }
     updateDisplay(answer);
-    saveNumber(answer);
-    justCalculated = true;
     return answer;
 }
