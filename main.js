@@ -16,43 +16,36 @@ function divide(a,b){
     return (a/b)
 }
 let firstNumber = '';
-let currentNumber = '';
+let currentNumber = '0';
 let operator = '';
 let answer='';
-let justCalculated = false;
+let decimalPressed = false;
 const cont = document.querySelector('#interface');
+
+updateDisplay(currentNumber)
 
 cont.addEventListener('click',(e) => {
     let buttonType = e.target.className;
-    let buttonDisplay;
-    if (buttonType === 'equal') buttonDisplay = '';
-    else buttonDisplay = e.target.textContent;
+    let buttonDisplay = e.target.textContent;
     switch(buttonType){
         case ('clear'):
-            currentNumber = '';
-            updateDisplay(currentNumber)
-            break;
         case('clear-all'):
-            currentNumber = '';
-            firstNumber = '';
-            currentNumber = '';
-            answer = '';
-            updateDisplay(currentNumber);
-            break;
         case ('number'):
-            if(firstNumber === '' && buttonDisplay === '0') return;
-            currentNumber += buttonDisplay;
+            //To reset the numbers after a calculation
+            if (answer !== '') answer = '';
+            if (currentNumber !== '0') currentNumber += buttonDisplay;
+            else if (currentNumber === '0' && buttonDisplay !== '0') currentNumber = buttonDisplay;
             updateDisplay(currentNumber);
             break;
+        case ('decimal'):
+            if (decimalPressed === false)
+                currentNumber += buttonDisplay;
+                decimalPressed = true;
+                updateDisplay(currentNumber);
+                break;
         case ('operation'):
+
         case ('equal'):
-            if (answer!=='') firstNumber = answer;
-            if (operator !== '') {
-                calculate(firstNumber,currentNumber,operator);
-            }
-            else {saveNumber(currentNumber)};
-            operator = buttonDisplay;
-            if (buttonType === 'equal') 
             break;
     }
 })
