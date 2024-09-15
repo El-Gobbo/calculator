@@ -24,6 +24,10 @@
     align-items: center;
 }
 
+#zeroth-row{
+    justify-content: left;
+}
+
 button, #screen{
     margin: 5px;
 }

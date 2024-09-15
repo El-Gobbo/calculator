@@ -1,3 +1,9 @@
+let firstNumber;
+let currentNumber = '0';
+let operator;
+let answer;
+let decimalPressed = false;
+
 function add(a,b){
     a = Number(a);
     b = Number(b);
@@ -15,14 +21,19 @@ function multiply(a,b){
 function divide(a,b){
     return (a/b)
 }
-let firstNumber = '';
-let currentNumber = '0';
-let operator = '';
-let answer='';
-let decimalPressed = false;
+
+function reset() {
+    firstNumber = '';
+    currentNumber = '0';
+    operator = '';
+    answer='';
+    decimalPressed = false;
+    updateDisplay(currentNumber)
+}
+
 const cont = document.querySelector('#interface');
 
-updateDisplay(currentNumber)
+reset();
 
 cont.addEventListener('click',(e) => {
     let buttonType = e.target.className;
@@ -60,6 +71,16 @@ cont.addEventListener('click',(e) => {
             operator = '';
             currentNumber = '0';
             decimalPressed = false;
+            break;
+        case ('clear-all'):
+            reset();
+            break;
+        case ('clear'):
+            if (currentNumber.slice(-1) === '.') decimalPressed = false;
+            if (currentNumber.length !== 1)
+                currentNumber = currentNumber.slice(0,-1);
+            else currentNumber = '0';
+            updateDisplay(currentNumber);
             break;
     }
 })
