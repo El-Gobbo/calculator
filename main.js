@@ -4,6 +4,8 @@ let operator;
 let answer;
 let decimalPressed = false;
 
+const cont = document.querySelector('#interface');
+
 function add(a,b){
     a = Number(a);
     b = Number(b);
@@ -31,16 +33,41 @@ function reset() {
     updateDisplay(currentNumber)
 }
 
-const cont = document.querySelector('#interface');
+function updateDisplay(activeNumber){
+    let display = document.querySelector('#screen');
+    display.textContent = activeNumber;
+}
 
-reset();
+function calculate(a,b,opp){
+    switch (opp){
+        case `+`:
+            answer = add(a,b);
+            console.log('added')
+            break;
+        case '-':
+            answer = subtract(a,b);
+            console.log('subtracted')
+            break;
+        case `×`:
+            answer = multiply(a,b);
+            console.log('multiplied')
+            break;
+        case `÷`:
+            answer = divide(a,b);
+            console.log('divided')
+            break;
+        default:
+            console.log('failed operation');
+    }
+    updateDisplay(answer);
+    return answer;
+}
 
 cont.addEventListener('click',(e) => {
     let buttonType = e.target.className;
     let buttonDisplay = e.target.textContent;
     switch(buttonType){
         case ('number'):
-            //To reset the numbers after a calculation
             if (answer !== '') answer = '';
             if (currentNumber !== '0') currentNumber += buttonDisplay;
             else if (currentNumber === '0' && buttonDisplay !== '0') currentNumber = buttonDisplay;
@@ -85,32 +112,4 @@ cont.addEventListener('click',(e) => {
     }
 })
 
-function updateDisplay(activeNumber){
-    let display = document.querySelector('#screen');
-    display.textContent = activeNumber;
-}
-
-function calculate(a,b,opp){
-    switch (opp){
-        case `+`:
-            answer = add(a,b);
-            console.log('added')
-            break;
-        case '-':
-            answer = subtract(a,b);
-            console.log('subtracted')
-            break;
-        case `×`:
-            answer = multiply(a,b);
-            console.log('multiplied')
-            break;
-        case `÷`:
-            answer = divide(a,b);
-            console.log('divided')
-            break;
-        default:
-            console.log('failed operation');
-    }
-    updateDisplay(answer);
-    return answer;
-}
+reset();
